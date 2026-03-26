@@ -1,9 +1,11 @@
 export function up(knex) {
-    return knex.schema.createTable('customer', (table) => {
+    return knex.schema.createTable('product', (table) => {
         table.bigIncrements('id').primary();
-        table.text('nome').notNullable();
-        table.text('cpf');
-        table.text('rg');
+        table.text('descricao').notNullable();
+        table.decimal('custo', 18, 4).notNullable();
+        table.decimal('preco', 18, 4).notNullable();
+        table.text('unidade').notNullable();
+        table.string('codigo_barras').unique();
         table.boolean('ativo').defaultTo(true);
         table.boolean('excluido').defaultTo(false);
         table.timestamp('criado_em', { useTz: false }).defaultTo(knex.fn.now()) .comment('Data de criação do registro');
@@ -12,5 +14,5 @@ export function up(knex) {
 }
 
 export function down(knex) {
-    return knex.schema.dropTable('customer');
+    return knex.schema.dropTable('product');
 }

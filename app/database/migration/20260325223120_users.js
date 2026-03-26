@@ -1,9 +1,9 @@
 export function up(knex) {
-    return knex.schema.createTable('customer', (table) => {
+    return knex.schema.createTable('users', (table) => {
         table.bigIncrements('id').primary();
         table.text('nome').notNullable();
         table.text('cpf');
-        table.text('rg');
+        table.text('ie_rg');
         table.boolean('ativo').defaultTo(true);
         table.boolean('excluido').defaultTo(false);
         table.timestamp('criado_em', { useTz: false }).defaultTo(knex.fn.now()) .comment('Data de criação do registro');
@@ -12,5 +12,5 @@ export function up(knex) {
 }
 
 export function down(knex) {
-    return knex.schema.dropTable('customer');
+    return knex.schema.dropTable('users');
 }
