@@ -4,20 +4,16 @@ export function up(knex) {
         table.increments('id').primary(); 
         
         // Códigos ISO costumam ter 2 ou 3 letras (ex: BR, BRA) ou DDI (+55)
-        table.string('codigo', 5).notNullable().unique(); 
+        table.text('codigo').notNullable().unique(); 
         
-        table.string('nome', 100).notNullable().unique();
+        table.text('nome').notNullable().unique();
         
-        // String ao invés de text
-        table.string('localizacao', 100).notNullable(); 
-        table.string('lingua', 50).notNullable(); // A duplicidade foi removida!
+        // text ao invés de text
+        table.text('localizacao').notNullable(); 
+        table.text('lingua').notNullable(); // A duplicidade foi removida!
         
         // Moedas geralmente usam 3 letras (ex: BRL, USD, EUR)
-        table.string('moeda', 3).notNullable(); 
-        
-        table.boolean('ativo').defaultTo(true);
-        table.boolean('excluido').defaultTo(false);
-        
+        table.text('moeda').notNullable(); 
         // Mantive useTz: false para ficar igual às suas tabelas de estado e cidade
         table.timestamp('criado_em', { useTz: false })
              .defaultTo(knex.fn.now())
