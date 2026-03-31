@@ -7,7 +7,97 @@
 {% endblock %}
 
 {% block content %}
-<h1>Visão Geral</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>{{appName}} - Página Inicial</title>
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Fundo cinza claro agradável aos olhos */
+        }
+        .dashboard-btn {
+            height: 130px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .dashboard-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        .dashboard-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark mb-5 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-kanban me-2"></i>Lobo
+            </a>
+            <div class="text-light">
+                <i class="bi bi-person-circle fs-5"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h1 class="h2 fw-bold text-secondary">Bem-vindo ao Deskivo</h1>
+                <p class="text-muted">Selecione o módulo que deseja acessar</p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            
+            <div class="col-6 col-md-4 col-lg-2">
+                <button id="product-button" onclick="api.window.open('pages/list-product', { title: 'Produtos' })" class="btn btn-primary w-100 dashboard-btn shadow-sm">
+                    <i class="bi bi-box-seam dashboard-icon"></i>Produto
+                </button>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-2">
+                <button id="customer-button" onclick="api.window.open('pages/list-customer', { title: 'Clientes' })" class="btn btn-success w-100 dashboard-btn shadow-sm">
+                    <i class="bi bi-people dashboard-icon"></i>Cliente
+                </button>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-2">
+                <button id="users-button" onclick="api.window.open('pages/list-users', { title: 'Usuários' })" class="btn btn-info text-white w-100 dashboard-btn shadow-sm">
+                    <i class="bi bi-person-badge dashboard-icon"></i>Usuário
+                </button>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-2">
+                <button id="enterprise-button" onclick="api.window.open('pages/list-company', { title: 'Empresas' })" class="btn btn-warning text-dark w-100 dashboard-btn shadow-sm">
+                    <i class="bi bi-building dashboard-icon"></i>Empresa
+                </button>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-2">
+                <button id="venda-button" onclick="api.window.open('pages/list-sales', { title: 'Vendas' })" class="btn btn-danger w-100 dashboard-btn shadow-sm">
+                    <i class="bi bi-cart-check dashboard-icon"></i>Venda
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
 
 <!--<button onclick="api.window.open('pages/list-customer', { title: 'Clientes' })">
     Clientes

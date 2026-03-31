@@ -11,10 +11,21 @@
             Cadastros
           </a>
           <ul class="dropdown-menu">
-            <li></i><a class="dropdown-item" href="#"><i class="fa-solid fa-clipboard-user"></i>Cliente</a></li>
-            <li></i><a class="dropdown-item" href="#"> <i class="fa-solid fa-barcode"></i>Produto</a></li>
-            <li></i><a class="dropdown-item" href="#"> <i class="fa-solid fa-building"></i>Fornecedor</a></li>
-            <li></i><a class="dropdown-item" href="#"> <i class="fa-solid fa-building-circle-check"></i></i>Empresa</a></li>
+            
+            <li></i><a class="dropdown-item" onclick="api.window.open('pages/list-customer', { title: 'Clientes' })"
+                                style="cursor: pointer;"><i class="fa-solid fa-clipboard-user"></i>Cliente</a></li>
+
+            <li></i><a class="dropdown-item" onclick="api.window.open('pages/list-product', { title: 'Produtos' })"
+                                style="cursor: pointer;">
+                                <i class="fa-solid fa-barcode"></i>Produto</a></li>
+
+            <li></i><a class="dropdown-item" onclick="api.window.open('pages/list-supplier', { title: 'Fornecedores' })"
+                                style="cursor: pointer;"> 
+                                <i class="fa-solid fa-building"></i>Fornecedor</a></li>
+
+            <li></i><a class="dropdown-item" onclick="api.window.open('pages/list-company', { title: 'Empresas' })"
+                                style="cursor: pointer;"> 
+                                <i class="fa-solid fa-building-circle-check"></i>Empresa</a></li>
           </ul>
         </li>
       </ul>
