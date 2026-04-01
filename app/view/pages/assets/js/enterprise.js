@@ -1,31 +1,13 @@
+
 const InsertButton = document.getElementById('insert');
 const Action = document.getElementById('action')
 const Id = document.getElementById('id')
 const form = document.getElementById('form');
-$(document).ready(function () {
-    $("#preco_venda").maskMoney({
-        prefix: 'R$ ',
-        allowNegative: true,
-        thousands: '.',
-        decimal: ',',
-        affixesStay: true
-    });
-});
+Inputmask('99.99.99/9999-99').mask('#cnpj');
 
-$(document).ready(function () {
-    $("#preco_compra").maskMoney({
-        prefix: 'R$ ',
-        allowNegative: true,
-        thousands: '.',
-        decimal: ',',
-        affixesStay: true
-    });
-});
-
-
-
+//  CARREGA DADOS DE EDIÇÃO (se existirem)
 (async () => {
-    const editData = await api.temp.get('product:edit');
+    const editData = await api.temp.get('enterprise:edit');
     if (editData) {
         // Modo edição
         Action.value = editData.action || 'e';
@@ -43,30 +25,23 @@ $(document).ready(function () {
             }
         }
     } else {
+        // Modo cadastro novo
         Action.value = 'c';
         Id.value = '';
     }
 })();
 
-
 InsertButton.addEventListener('click', async () => {
     let timer = 3000;
     $('#insert').prop('disabled', true);
-
-    const precoVendaLimpo = $("#preco_venda").maskMoney('unmasked')[0];
-    const precoCompraLimpo = $("#preco_compra").maskMoney('unmasked')[0];
-
     const data = formToJson(form);
-
-    data.preco_venda = precoVendaLimpo;
-    data.preco_compra = precoCompraLimpo;
-
+    // Se NÃO é cadastro novo, pega o ID para update
     let id = Action.value !== 'c' ? Id.value : null;
-
     try {
+
         const response = Action.value === 'c'
-            ? await api.product.insert(data)
-            : await api.product.update(id, data);
+            ? await api.enterprise.insert(data)
+            : await api.enterprise.update(id, data);
 
         if (!response.status) {
             toast('error', 'Erro', response.msg, timer);
@@ -74,6 +49,7 @@ InsertButton.addEventListener('click', async () => {
         }
         toast('success', 'Sucesso', response.msg, timer);
         form.reset();
+        // Fecha a janela modal após 1.5s (tempo do toast)
         setTimeout(() => {
             api.window.close();
         }, timer);

@@ -1,26 +1,26 @@
 import connection from '../database/Connection.js';
-export default class Product {
+export default class Supplier {
     // Tabela no banco
-    static table = 'product';
+    static table = 'supplier';
 
     // Mapeamento: índice da coluna no DataTable → nome no banco
-    static #columns = ['id', 'nome', 'codigo_barra', 'unidade', 'preco_compra', 'preco_venda', 'descricao', 'ativo', 'criado_em', 'atualizado_em', null];
+    static #columns = ['id', 'nome_fantasia', 'razao_social', 'cnpj_cpf', 'rg_ie', 'ativo', null];
 
     // Colunas pesquisáveis pelo termo de busca
-    static #searchable = ['nome', 'codigo_barra', 'unidade', 'preco_compra', 'preco_venda'];
+    static #searchable = ['nome_fantasia', 'cnpj_cpf', 'rg_ie'];
 
-    //Insere um novo cliente.
+    //Insere um novo Fornecedor.
     static async insert(data) {
 
-        if (!data.nome || data.nome.trim() === '') {
+        if (!data.nome_fantasia || data.nome_fantasia.trim() === '') {
             return { status: false, msg: 'O campo nome é obrigatório', id: null, data: [] };
         }
 
         try {
 
-            const clean = Product.#sanitize(data);
+            const clean = Supplier.#sanitize(data);
 
-            const [result] = await connection(Product.table)
+            const [result] = await connection(Supplier.table)
                 .insert(clean)
                 .returning('*');
 
@@ -31,7 +31,7 @@ export default class Product {
         }
     }
 
-    //Implementamos a pesquisa completa para o cliente
+    //Implementamos a pesquisa completa para o Fornecedor
     static async find(data = {}) {
         const {
             term = '',
@@ -43,7 +43,7 @@ export default class Product {
         } = data;
 
         //Total sem filtro
-        const [{ count: total }] = await connection(Product.table)
+        const [{ count: total }] = await connection(Supplier.table)
             .count('id as count');
 
         //Monta WHERE da busca
@@ -52,7 +52,7 @@ export default class Product {
         function applySearch(query) {
             if (search) {
                 query.where(function () {
-                    for (const col of Product.#searchable) {
+                    for (const col of Supplier.#searchable) {
                         this.orWhereRaw(`CAST("${col}" AS TEXT) ILIKE ?`, [`%${search}%`]);
                     }
                 });
@@ -61,15 +61,15 @@ export default class Product {
         }
 
         // Total filtrado
-        const filteredQ = connection(Product.table).count('id as count');
+        const filteredQ = connection(Supplier.table).count('id as count');
         applySearch(filteredQ);
         const [{ count: filtered }] = await filteredQ;
 
         // Dados paginados
-        const orderColumn = Product.#columns[column] || 'id';
+        const orderColumn = Supplier.#columns[column] || 'id';
         const orderDir = orderType === 'desc' ? 'desc' : 'asc';
 
-        const dataQ = connection(Product.table).select('*');
+        const dataQ = connection(Supplier.table).select('*');
         applySearch(dataQ);
         dataQ.orderBy(orderColumn, orderDir);
         dataQ.limit(parseInt(limit));
@@ -85,12 +85,12 @@ export default class Product {
         };
     }
 
-    //Implementamos a exclusão cliente
+    //Implementamos a exclusão Fornecedor
     static async delete(id) {
         if (!id) return { status: false, msg: 'ID é obrigatório' };
 
         try {
-            await connection(Product.table).where({ id }).del();
+            await connection(Supplier.table).where({ id }).del();
             return { status: true, msg: 'Excluído com sucesso!' };
         } catch (err) {
             return { status: false, msg: 'Erro: ' + err.message };
@@ -106,18 +106,18 @@ export default class Product {
         }
 
         try {
-            const clean = Product.#sanitize(data);
+            const clean = Supplier.#sanitize(data);
 
             // Remove o id do objeto para não tentar atualizar a PK
             delete clean.id;
 
-            const [result] = await connection(Product.table)
+            const [result] = await connection(Supplier.table)
                 .where({ id })
                 .update(clean)
                 .returning('*');
 
             if (!result) {
-                return { status: false, msg: 'Cliente não encontrado', data: [] };
+                return { status: false, msg: 'Fornecedor não encontrado', data: [] };
             }
 
             return { status: true, msg: 'Atualizado com sucesso!', id: result.id, data: [result] };
@@ -126,11 +126,11 @@ export default class Product {
         }
     }
 
-    //Retorna apenas um cliente pelo seu ID
+    //Retorna apenas um Fornecedor pelo seu ID
     static async findById(id) {
         if (!id) return null;
 
-        const row = await connection(Product.table)
+        const row = await connection(Supplier.table)
             .where({ id })
             .first();
 

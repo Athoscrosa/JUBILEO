@@ -1,8 +1,7 @@
 {
     "name": "jubileo",
     "version": "1.0.0",
-    "main": "index.js",
-    "type": "module",
+    "main": "index.js",  
     "private": true,
     "scripts": {
         "start": "chcp 65001 >nul && electron .",
@@ -52,7 +51,7 @@
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "Deskivo",
+            "shortcutName": "Jubileo",
             "installerIcon": "app/view/pages/assets/img/icon.png",
             "uninstallerIcon": "app/view/pages/assets/img/icon.png",
             "installerHeaderIcon": "app/view/pages/assets/img/icon.png"

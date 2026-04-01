@@ -1,13 +1,15 @@
 export class Datatables {
-    static SetTable(selector, columns, options = {}) {
+    //Configura a tabela e retorna um objeto com o método getData para encadear.
+    static SetTable(selector, columns, option = {}) {
         return {
+            //Conecta a fonte de dados e inicializa o DataTable.
             getData(apiFn) {
-                //por motivos de segurança verificamos se a tabela
-                //ja foi iniciada.
+                // Destrói instância anterior se existir, para evitar re-inicialização
                 if ($.fn.DataTable.isDataTable(selector)) {
                     $(selector).DataTable().destroy();
                 }
-                const defaltConfig = {
+                // Configuração padrão completa
+                const defaultConfig = {
                     paging: true,
                     lengthChange: true,
                     ordering: true,
@@ -23,7 +25,6 @@ export class Datatables {
                         url: 'https://cdn.datatables.net/plug-ins/2.3.6/i18n/pt-BR.json',
                         searchPlaceholder: 'Digite sua pesquisa...'
                     },
-
                     ajax: async (data, callback) => {
                         const filter = {
                             draw: data.draw,
@@ -45,15 +46,54 @@ export class Datatables {
                             });
                         }
                     },
+                    columns: columns,
+                    layout: {
+                        topStart: 'search',
+                        topEnd: 'pageLength',
+                        bottomStart: 'info',
+                        bottomEnd: 'paging'
+                    },
+                    initComplete: function () {
+                        setTimeout(() => {
+                            // Remove o label "Pesquisar"
+                            const label = document.querySelector(`${selector}_wrapper .dt-search label`);
+                            if (label) {
+                                label.remove();
+                            }
 
+                            // Ajusta a div do campo de pesquisa
+                            const searchDiv = document.querySelector(`${selector}_wrapper .row > div.dt-layout-start`);
+                            if (searchDiv) {
+                                searchDiv.classList.remove('col-md-auto');
+                                searchDiv.classList.add('col-lg-6', 'col-md-6', 'col-sm-12');
+                            }
+
+                            const divSearch = document.querySelector(`${selector}_wrapper .dt-search`);
+                            if (divSearch) {
+                                divSearch.classList.add('w-100');
+                            }
+
+                            const input = document.querySelector(`${selector}_wrapper .dt-search input`);
+                            if (input) {
+                                input.classList.remove('form-control-sm');
+                                input.classList.add('form-control-md', 'w-100');
+                                input.style.marginLeft = '0';
+                                input.focus();
+                            }
+
+                            const pageLength = document.querySelector(`${selector}_wrapper .dt-length select`);
+                            if (pageLength) {
+                                pageLength.classList.add('form-select-md');
+                            }
+                        }, 100);
+                    }
                 };
-                //configuração final, do DataTable, que será mescladoa
-                //Caso exista um configuração da tabela especifica.
-                const finalConfig = { ...defaltConfig, ...options };
-                if (!options.columns) {
+                // Mescla configurações padrão com as opções extras (option sobrescreve o padrão)
+                const finalConfig = { ...defaultConfig, ...option };
+                // Se option tiver 'columns', usa as option; senão mantém as passadas em SetTable
+                if (!option.columns) {
                     finalConfig.columns = columns;
                 }
-
                 return $(selector).DataTable(finalConfig);
             }
         };

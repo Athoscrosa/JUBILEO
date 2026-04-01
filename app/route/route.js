@@ -1,6 +1,7 @@
 import { ipcMain, BrowserWindow } from 'electron';
 import Template from '../mixin/Template.js';
 import Customer from '../controller/Customer.js';
+import Product from '../controller/Product.js';
 
 function getWin(event) {
     return BrowserWindow.fromWebContents(event.sender);
@@ -59,6 +60,9 @@ ipcMain.handle('customer:insert', async (_e, data) => {
     return result;
 });
 
+ipcMain.handle('product:find', async (_e, where = {}) => {
+    return await Product.find(where);
+});
 ipcMain.handle('customer:find', async (_e, where = {}) => {
     return await Customer.find(where);
 });
