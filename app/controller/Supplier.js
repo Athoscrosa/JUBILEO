@@ -4,10 +4,10 @@ export default class Supplier {
     static table = 'supplier';
 
     // Mapeamento: índice da coluna no DataTable → nome no banco
-    static #columns = ['id', 'nome_fantasia', 'razao_social', 'cnpj_cpf', 'rg_ie', 'ativo', null];
+    static #columns = ['id', 'nome_fantasia', 'razao_social', 'cnpj_cpf', 'ie_rg', 'ativo', null];
 
     // Colunas pesquisáveis pelo termo de busca
-    static #searchable = ['nome_fantasia', 'cnpj_cpf', 'rg_ie'];
+    static #searchable = ['nome_fantasia', 'cnpj_cpf', 'ie_rg'];
 
     //Insere um novo Fornecedor.
     static async insert(data) {
@@ -101,8 +101,8 @@ export default class Supplier {
     static async update(id, data) {
         if (!id) return { status: false, msg: 'ID é obrigatório', data: [] };
 
-        if (!data.nome || data.nome.trim() === '') {
-            return { status: false, msg: 'O campo nome é obrigatório', data: [] };
+        if (!data.nome_fantasia || data.nome_fantasia.trim() === '') {
+            return { status: false, msg: 'O campo nome fantasia é obrigatório', data: [] };
         }
 
         try {

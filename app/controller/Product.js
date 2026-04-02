@@ -4,10 +4,10 @@ export default class Product {
     static table = 'product';
 
     // Mapeamento: índice da coluna no DataTable → nome no banco
-    static #columns = ['id', 'nome', 'codigo_barra', 'unidade', 'preco_compra', 'preco_venda', 'descricao', 'ativo', 'criado_em', 'atualizado_em', null];
+    static #columns = ['id', 'nome', 'codigo_barra', 'unidade', 'descricao', 'preco_compra', 'preco_venda', 'ativo', null];
 
     // Colunas pesquisáveis pelo termo de busca
-    static #searchable = ['nome', 'codigo_barra', 'unidade', 'preco_compra', 'preco_venda'];
+    static #searchable = ['nome', 'codigo_barra', 'unidade', 'descricao', 'preco_compra', 'preco_venda'];
 
     //Insere um novo cliente.
     static async insert(data) {
@@ -117,7 +117,7 @@ export default class Product {
                 .returning('*');
 
             if (!result) {
-                return { status: false, msg: 'Cliente não encontrado', data: [] };
+                return { status: false, msg: 'Produto não encontrado', data: [] };
             }
 
             return { status: true, msg: 'Atualizado com sucesso!', id: result.id, data: [result] };
@@ -126,7 +126,7 @@ export default class Product {
         }
     }
 
-    //Retorna apenas um cliente pelo seu ID
+    //Retorna apenas um Produto pelo seu ID
     static async findById(id) {
         if (!id) return null;
 
@@ -151,7 +151,7 @@ export default class Product {
             if (value === 'false') { clean[key] = false; continue; }
             clean[key] = value;
         }
-        
+
         return clean;
     }
 }

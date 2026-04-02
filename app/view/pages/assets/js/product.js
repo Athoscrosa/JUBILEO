@@ -2,24 +2,24 @@ const InsertButton = document.getElementById('insert');
 const Action = document.getElementById('action')
 const Id = document.getElementById('id')
 const form = document.getElementById('form');
-$(document).ready(function () {
-    $("#preco_venda").maskMoney({
-        prefix: 'R$ ',
-        allowNegative: true,
-        thousands: '.',
-        decimal: ',',
-        affixesStay: true
-    });
+$(document).ready(function(){
+  $("#preco_venda").maskMoney({
+    prefix:'R$ ',
+    allowNegative: true,
+    thousands:'.',
+    decimal:',',
+    affixesStay: true
+  });
 });
 
-$(document).ready(function () {
-    $("#preco_compra").maskMoney({
-        prefix: 'R$ ',
-        allowNegative: true,
-        thousands: '.',
-        decimal: ',',
-        affixesStay: true
-    });
+$(document).ready(function(){
+  $("#preco_compra").maskMoney({
+    prefix:'R$ ',
+    allowNegative: true,
+    thousands:'.',
+    decimal:',',
+    affixesStay: true
+  });
 });
 
 

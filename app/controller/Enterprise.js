@@ -101,7 +101,7 @@ export default class Enterprise {
     static async update(id, data) {
         if (!id) return { status: false, msg: 'ID é obrigatório', data: [] };
 
-        if (!data.nome || data.nome.trim() === '') {
+        if (!data.fantasia || data.fantasia.trim() === '') {
             return { status: false, msg: 'O campo nome é obrigatório', data: [] };
         }
 

@@ -2,6 +2,9 @@ import { ipcMain, BrowserWindow } from 'electron';
 import Template from '../mixin/Template.js';
 import Customer from '../controller/Customer.js';
 import Product from '../controller/Product.js';
+import Supplier from '../controller/Supplier.js';
+import Users from '../controller/Users.js';
+import Enterprise from '../controller/Enterprise.js';
 
 function getWin(event) {
     return BrowserWindow.fromWebContents(event.sender);
@@ -14,7 +17,37 @@ function broadcastReload(channel) {
     }
 }
 
-//  WINDOW
+// --- DASHBOARD / ESTATÍSTICAS ---
+ipcMain.handle('dashboard:getStats', async () => {
+    try {
+        
+        const productsResult = await Product.find() || {};
+        const customersResult = await Customer.find() || {};
+        const usersResult = await Users.find() || {};
+        const suppliersResult = await Supplier.find() || {};
+        const enterprisesResult = await Enterprise.find() || {};
+
+        console.log('Estatísticas do Banco:', {
+            produtos: productsResult.recordsTotal,
+            clientes: customersResult.recordsTotal,
+            usuarios: usersResult.recordsTotal,
+            empresas: enterprisesResult.recordsTotal,
+            fornecedores: suppliersResult.recordsTotal
+        });
+
+        return {
+            totalProducts: productsResult.recordsTotal || 0,
+            totalCustomers: customersResult.recordsTotal || 0,
+            totalUsers: usersResult.recordsTotal || 0,
+            totalSuppliers: suppliersResult.recordsTotal || 0,
+            totalEnterprises: enterprisesResult.recordsTotal || 0
+        };
+    } catch (error) {
+        console.error("Erro ao processar estatísticas no Main Process:", error);
+        return { totalProducts: 0, totalCustomers: 0, totalSuppliers: 0, totalEnterprises: 0, totalUsers: 0 };
+    }
+});
+// --- WINDOW ---
 ipcMain.handle('window:open', (_e, name, opts = {}) => {
     const win = Template.create(name, opts);
     Template.loadView(win, name);
@@ -40,7 +73,7 @@ ipcMain.handle('window:close', (e) => {
     getWin(e)?.close();
 });
 
-//  TEMP STORE — dados temporários entre janelas
+// --- TEMP STORE ---
 let tempData = {};
 
 ipcMain.handle('temp:set', (_e, key, data) => {
@@ -53,16 +86,13 @@ ipcMain.handle('temp:get', (_e, key) => {
     return data;
 });
 
-//  CUSTOMER
+// --- CUSTOMER ---
 ipcMain.handle('customer:insert', async (_e, data) => {
     const result = await Customer.insert(data);
     if (result.status) broadcastReload('customer:reload');
     return result;
 });
 
-ipcMain.handle('product:find', async (_e, where = {}) => {
-    return await Product.find(where);
-});
 ipcMain.handle('customer:find', async (_e, where = {}) => {
     return await Customer.find(where);
 });
@@ -80,5 +110,112 @@ ipcMain.handle('customer:update', async (_e, id, data) => {
 ipcMain.handle('customer:delete', async (_e, id) => {
     const result = await Customer.delete(id);
     if (result.status) broadcastReload('customer:reload');
+    return result;
+});
+
+// --- PRODUTOS ---
+ipcMain.handle('product:insert', async (_e, data) => {
+    const result = await Product.insert(data);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+
+ipcMain.handle('product:find', async (_e, where = {}) => {
+    return await Product.find(where);
+});
+
+ipcMain.handle('product:findById', async (_e, id) => {
+    return await Product.findById(id);
+});
+
+ipcMain.handle('product:update', async (_e, id, data) => {
+    const result = await Product.update(id, data);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+
+ipcMain.handle('product:delete', async (_e, id) => {
+    const result = await Product.delete(id);
+    if (result.status) broadcastReload('product:reload');
+    return result;
+});
+
+// --- FORNECEDORES ---
+ipcMain.handle('supplier:insert', async (_e, data) => {
+    const result = await Supplier.insert(data);
+    if (result.status) broadcastReload('supplier:reload');
+    return result;
+});
+
+ipcMain.handle('supplier:find', async (_e, where = {}) => {
+    return await Supplier.find(where);
+});
+
+ipcMain.handle('supplier:findById', async (_e, id) => {
+    return await Supplier.findById(id);
+});
+
+ipcMain.handle('supplier:update', async (_e, id, data) => {
+    const result = await Supplier.update(id, data);
+    if (result.status) broadcastReload('supplier:reload');
+    return result;
+});
+
+ipcMain.handle('supplier:delete', async (_e, id) => {
+    const result = await Supplier.delete(id);
+    if (result.status) broadcastReload('supplier:reload');
+    return result;
+});
+
+// --- USUARIOS ---
+ipcMain.handle('users:insert', async (_e, data) => {
+    const result = await Users.insert(data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+
+ipcMain.handle('users:find', async (_e, where = {}) => {
+    return await Users.find(where);
+});
+
+ipcMain.handle('users:findById', async (_e, id) => {
+    return await Users.findById(id);
+});
+
+ipcMain.handle('users:update', async (_e, id, data) => {
+    const result = await Users.update(id, data);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+
+ipcMain.handle('users:delete', async (_e, id) => {
+    const result = await Users.delete(id);
+    if (result.status) broadcastReload('users:reload');
+    return result;
+});
+// --- EMPRESAS ---
+ipcMain.handle('enterprise:insert', async (_e, data) => {
+    const result = await Enterprise.insert(data);
+    if (result.status) broadcastReload('enterprise:reload');
+    return result;
+});
+
+ipcMain.handle('enterprise:find', async (_e, where = {}) => {
+    return await Enterprise.find(where);
+});
+
+ipcMain.handle('enterprise:findById', async (_e, id) => {
+    return await Enterprise.findById(id);
+});
+
+ipcMain.handle('enterprise:update', async (_e, id, data) => {
+    const result = await Enterprise.update(id, data);
+    if (result.status) broadcastReload('enterprise:reload');
+    return result;
+});
+
+ipcMain.handle('enterprise:delete', async (_e, id) => {
+    const result = await Enterprise.delete(id);
+    if (result.status) broadcastReload('enterprise:reload');
     return result;
 });
