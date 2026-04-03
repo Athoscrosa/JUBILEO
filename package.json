@@ -1,19 +1,27 @@
 {
-    "name": "jubileo",
+    "name": "deskivo",
     "version": "1.0.0",
-    "main": "index.js",  
+    "main": "main.js",
     "private": true,
     "scripts": {
         "start": "chcp 65001 >nul && electron .",
         "build:win": "electron-builder --win",
         "build:linux": "electron-builder --linux",
         "build:mac": "electron-builder --mac",
-        "build:all": "electron-builder --win --linux --mac"
+        "build:all": "electron-builder --win --linux --mac",
+        "test": "vitest",
+        "test:unit": "vitest --project unit",
+        "test:int": "vitest --project integration",
+        "test:feat": "vitest --project feature",
+        "test:fact": "vitest --project factories",
+        "test:arch": "vitest --project architecture",
+        "test:run": "vitest run",
+        "test:coverage": "vitest run --coverage"
     },
     "build": {
-        "appId": "com.jubileo.app",
-        "productName": "Jubileo",
-        "copyright": "Copyright © 2026 Jubileo",
+        "appId": "com.deskivo.app",
+        "productName": "Deskivo",
+        "copyright": "Copyright © 2026 Deskivo",
         "directories": {
             "output": "dist"
         },
@@ -51,7 +59,7 @@
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "Jubileo",
+            "shortcutName": "Deskivo",
             "installerIcon": "app/view/pages/assets/img/icon.png",
             "uninstallerIcon": "app/view/pages/assets/img/icon.png",
             "installerHeaderIcon": "app/view/pages/assets/img/icon.png"
@@ -78,7 +86,8 @@
     "devDependencies": {
         "electron": "^41.0.4",
         "electron-builder": "^25.1.8",
-        "jest": "^30.3.0"
+        "jest": "^30.3.0",
+        "vitest": "^4.1.2"
     },
     "dependencies": {
         "@faker-js/faker": "^10.4.0",
@@ -89,7 +98,6 @@
         "dotenv": "^17.3.1",
         "inputmask": "^5.0.9",
         "jquery": "^4.0.0",
-        "jquery-maskmoney": "^3.0.2",
         "knex": "^3.2.5",
         "nunjucks": "^3.2.4",
         "pg": "^8.20.0",
