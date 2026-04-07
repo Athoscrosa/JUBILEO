@@ -41,6 +41,18 @@ $(document).ready(function () {
         decimal: ',',
         affixesStay: true
     });
+    
+});
+
+$(document).ready(function () {
+    $("#imposto").maskMoney({
+        prefix: '% ',
+        allowNegative: true,
+        thousands: '.',
+        decimal: ',',
+        affixesStay: true
+    });
+    
 });
 
 
@@ -78,6 +90,7 @@ InsertButton.addEventListener('click', async () => {
     const precoCompraLimpo = $("#preco_compra").maskMoney('unmasked')[0];
     const margemLucroLimpo = $("#margem_lucro").maskMoney('unmasked')[0];
     const custoOperacionalLimpo = $("#custo_operacional").maskMoney('unmasked')[0];
+    const impostoLimpo = $("#imposto").maskMoney('unmasked')[0];
 
 
     const data = formToJson(form);
@@ -86,6 +99,7 @@ InsertButton.addEventListener('click', async () => {
     data.preco_compra = precoCompraLimpo;
     data.margem_lucro = margemLucroLimpo;
     data.custo_operacional = custoOperacionalLimpo;
+    data.imposto = impostoLimpo;
 
     let id = Action.value !== 'c' ? Id.value : null;
 
