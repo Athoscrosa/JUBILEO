@@ -97,7 +97,7 @@ async function editProduct(id) {
         // 3. Abre a modal
         api.window.open('pages/product', {
             width: 1400,
-            height: 800,
+            height: 1100,
             title: 'Editar Produto',
         });
     } catch (err) {

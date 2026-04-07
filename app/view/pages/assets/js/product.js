@@ -1,25 +1,46 @@
 const InsertButton = document.getElementById('insert');
 const Action = document.getElementById('action')
 const Id = document.getElementById('id')
-const form = document.getElementById('form');
-$(document).ready(function(){
-  $("#preco_venda").maskMoney({
-    prefix:'R$ ',
-    allowNegative: true,
-    thousands:'.',
-    decimal:',',
-    affixesStay: true
-  });
+const totalTax = document.getElementById('total_imposto');
+
+
+$(document).ready(function () {
+    $("#preco_venda").maskMoney({
+        prefix: 'R$ ',
+        allowNegative: true,
+        thousands: '.',
+        decimal: ',',
+        affixesStay: true
+    });
 });
 
-$(document).ready(function(){
-  $("#preco_compra").maskMoney({
-    prefix:'R$ ',
-    allowNegative: true,
-    thousands:'.',
-    decimal:',',
-    affixesStay: true
-  });
+$(document).ready(function () {
+    $("#preco_compra").maskMoney({
+        prefix: 'R$ ',
+        allowNegative: true,
+        thousands: '.',
+        decimal: ',',
+        affixesStay: true
+    });
+});
+$(document).ready(function () {
+    $("#margem_lucro").maskMoney({
+        prefix: '% ',
+        allowNegative: true,
+        thousands: '.',
+        decimal: ',',
+        affixesStay: true
+    });
+});
+
+$(document).ready(function () {
+    $("#custo_operacional").maskMoney({
+        prefix: '% ',
+        allowNegative: true,
+        thousands: '.',
+        decimal: ',',
+        affixesStay: true
+    });
 });
 
 
@@ -50,16 +71,21 @@ $(document).ready(function(){
 
 
 InsertButton.addEventListener('click', async () => {
-    let timer = 3000;
+    let timer = 2000;
     $('#insert').prop('disabled', true);
 
     const precoVendaLimpo = $("#preco_venda").maskMoney('unmasked')[0];
     const precoCompraLimpo = $("#preco_compra").maskMoney('unmasked')[0];
+    const margemLucroLimpo = $("#margem_lucro").maskMoney('unmasked')[0];
+    const custoOperacionalLimpo = $("#custo_operacional").maskMoney('unmasked')[0];
+
 
     const data = formToJson(form);
 
     data.preco_venda = precoVendaLimpo;
     data.preco_compra = precoCompraLimpo;
+    data.margem_lucro = margemLucroLimpo;
+    data.custo_operacional = custoOperacionalLimpo;
 
     let id = Action.value !== 'c' ? Id.value : null;
 

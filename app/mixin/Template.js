@@ -84,9 +84,9 @@ class Template {
     static #windows = new Map();
     static #defaults = {
         width: 1024,
-        height: 680,
-        minWidth: 480,
-        minHeight: 360,
+        height: 900,
+        minWidth: 700,
+        minHeight: 500,
         show: false,
         center: true,
         backgroundColor: '#0f1318',

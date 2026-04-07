@@ -55,12 +55,49 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label small fw-semibold" for="preco_venda">
-                        Preço de Venda
-                    </label>
+                    <label class="form-label small fw-semibold" for="preco_venda">Preço de Venda</label>
                     <div class="input-group">
                         <span class="input-group-text">R$</span>
                         <input type="text" class="form-control" id="preco_venda" name="preco_venda" placeholder="0,00">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-semibold" for="preco_sugerido">Preço Sugerido</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="text" class="form-control bg-light" id="preco_sugerido" name="preco_sugerido" placeholder="0,00" readonly>
+                    </div>
+                    <small class="text-muted">Calculado automaticamente</small>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-semibold" for="margem_lucro">Margem de Lucro</label>
+                    <div class="input-group">
+                        <span class="input-group-text">%</span>
+                        <input type="number" class="form-control" id="margem_lucro" name="margem_lucro" placeholder="0" min="0" max="100" step="0.01">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-semibold" for="custo_operacional">Custo Operacional</label>
+                    <div class="input-group">
+                        <span class="input-group-text">%</span>
+                        <input type="number" class="form-control" id="custo_operacional" name="custo_operacional" placeholder="0,00" min="0" step="0.01">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-header bg-dark text-white py-2 px-3">
+            <small class="fw-semibold"><i class="fa-solid fa-percent me-2"></i>Imposto</small>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label small fw-semibold" for="imposto">Imposto Total</label>
+                    <div class="input-group">
+                        <span class="input-group-text">%</span>
+                        <input type="number" class="form-control" id="imposto" name="imposto" placeholder="0" min="0" max="100" step="0.01">
                     </div>
                 </div>
             </div>
